@@ -11,6 +11,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
     assert_template 'users/new'
+    assert_not flash[:success]
   end
 
   test 'valid signup information' do
@@ -22,5 +23,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_template 'users/show'
+    assert_equal 'Welcome to the Sample App!', flash[:success]
   end
 end
