@@ -32,7 +32,7 @@ class ValidLogin < UsersLogin
 end
 
 class ValidLoginTest < ValidLogin
-  test 'valid login' do
+  test 'login with valid information followed by logout' do
     assert is_logged_in?
     assert_redirected_to @user
   end
@@ -65,5 +65,10 @@ class LogoutTest < Logout
     assert_select 'a[href=?]', login_path
     assert_select 'a[href=?]', logout_path,      count: 0
     assert_select 'a[href=?]', user_path(@user), count: 0
+  end
+
+  test 'should still work after logout in second window' do
+    delete logout_path
+    assert_redirected_to root_url
   end
 end
