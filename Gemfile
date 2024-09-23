@@ -6,6 +6,7 @@ ruby '3.2.5'
 gem 'bcrypt',          '3.1.18'
 gem 'bootsnap',        '1.16.0', require: false
 gem 'bootstrap-sass',  '3.4.1'
+gem 'faker',           '2.21.0'
 gem 'importmap-rails', '1.1.5'
 gem 'jbuilder',        '2.11.5'
 gem 'puma',            '5.6.8'
