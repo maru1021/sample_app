@@ -40,6 +40,3 @@ group :test do
   gem 'selenium-webdriver',       '4.8.3'
   gem 'webdrivers',               '5.2.0'
 end
-
-# Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
-# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
