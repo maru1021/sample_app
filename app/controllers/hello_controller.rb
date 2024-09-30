@@ -1,5 +1,5 @@
 class HelloController < ApplicationController
   def index
-    puts 'test'
+    puts 'test2'
   end
 end
