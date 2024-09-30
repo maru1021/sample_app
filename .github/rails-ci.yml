@@ -3,10 +3,10 @@ name: Rails CI
 on:
   push:
     branches:
-      - main  # main ブランチにプッシュされた場合に実行
+      - main
   pull_request:
     branches:
-      - main  # main ブランチへのプルリクエストが作成された場合に実行
+      - main
 
 jobs:
   test:
