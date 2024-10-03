@@ -1,0 +1,28 @@
+name: Slack Notification on Push
+
+on:
+  push:
+    branches: [ "main" ]  # "main" ブランチにプッシュされた場合に実行
+  workflow_dispatch:      # 手動トリガー用
+
+jobs:
+  slack_notification:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2.5'   # 使用しているRubyのバージョンに合わせてください
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Run Rake task to send Slack notification
+      run: bundle exec rake slack:send
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

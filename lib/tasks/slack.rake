@@ -28,7 +28,7 @@ namespace :slack do
     end
 
     def send_to_slack(commits)
-      webhook_url = 'https://hooks.slack.com/services/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'
+      webhook_url = ENV['SLACK_WEBHOOK_URL']
       message = build_slack_message(commits)
       response = post_to_slack(webhook_url, message)
       puts response.code
