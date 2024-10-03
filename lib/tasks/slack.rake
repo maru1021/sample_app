@@ -27,7 +27,7 @@ def build_slack_message(commits)
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: "stg 環境に「 `refs/heads/main` 」ブランチがリリースされました！！！\n\n*先頭のcommit一覧:*"
+          text: "stg 環境に「 `refs/heads/main` 」ブランチがリリースされました！！！\n\n先頭のcommit一覧:"
         }
       },
       {
@@ -38,6 +38,13 @@ def build_slack_message(commits)
         text: {
           type: 'mrkdwn',
           text: "```\n#{commits.join("\n")}\n```"
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: 'チケットの担当者はチケットステータスを`IN_QA`に変更し、テストをお願いします！\n(notification_of_release_to_stg)'
         }
       }
     ]
