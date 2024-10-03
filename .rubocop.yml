@@ -1,5 +1,3 @@
-# .rubocop.yml
-
 # ブロックの最大行数制限を無効化
 Metrics/BlockLength:
   Max: 9999  # 9999行まで許可
