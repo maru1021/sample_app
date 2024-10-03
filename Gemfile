@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -20,7 +22,10 @@ gem 'turbo-rails',     '1.4.0'
 gem 'will_paginate', '3.3.1'
 
 group :development, :test do
+  gem 'bundler-audit'
   gem 'debug', '1.7.1', platforms: %i[mri mingw x64_mingw]
+  gem 'jira-ruby'
+  gem 'rubocop'
 end
 
 group :development do
