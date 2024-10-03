@@ -42,8 +42,7 @@ def post_to_slack(webhook_url, message)
   request = Net::HTTP::Post.new(uri, header)
   request.body = message
 
-  response = http.request(request)
-  puts response.body
+  http.request(request)
 end
 
 def send_to_slack
