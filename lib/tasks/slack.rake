@@ -1,46 +1,57 @@
-# frozen_string_literal: true
+require 'net/http'
+require 'uri'
+require 'json'
 
-namespace :slack do
-  task send: :environment do
-    def fetch_git_commits
-      lasted_tag = `git describe --tags --abbrev=0`.strip
-      if lasted_tag.empty?
-        `git log --oneline -n 10`.split("\n")
-      else
-        `git log #{lasted_tag}..HEAD --oneline -n 10`.split("\n")
-      end
-    end
-
-    def build_slack_message(commits)
-      "最新コミット:\n#{commits.join("\n")}"
-    end
-
-    def post_to_slack(webhook_url, message)
-      uri = URI.parse(webhook_url)
-      header = { 'Content-Type' => 'application/json' }
-      payload = { text: message }.to_json
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Post.new(uri.request_uri, header)
-      request.body = payload
-      http.request(request)
-    end
-
-    def send_to_slack(commits)
-      webhook_url = ENV['SLACK_WEBHOOK_URL']
-      message = build_slack_message(commits)
-      response = post_to_slack(webhook_url, message)
-      puts response.code
-
-      if response.code == '200'
-        puts 'メッセージがSlackに送信されました'
-      else
-        puts "Slackへの送信に失敗しました: #{response.body}"
-      end
-    end
-
-    commits = fetch_git_commits
-    send_to_slack(commits)
+def fetch_git_commits
+  lasted_tag = `git describe --tags --abbrev=0`.strip
+  if lasted_tag.empty?
+    `git log --oneline -n 10`.split("\n")
+  else
+    `git log #{lasted_tag}..HEAD --oneline -n 10`.split("\n")
   end
 end
+
+def build_slack_message(commits)
+  {
+    blocks: [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: '最新プッシュ一覧',
+          emoji: true
+        }
+      },
+      *commits.map do |commit|
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: commit
+          }
+        }
+      end
+    ]
+  }.to_json
+end
+
+def post_to_slack(webhook_url, message)
+  uri = URI(webhook_url)
+  header = { 'Content-Type': 'application/json' }
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  request = Net::HTTP::Post.new(uri, header)
+  request.body = message
+
+  response = http.request(request)
+  puts response.body
+end
+
+def send_to_slack
+  commits = fetch_git_commits
+  message = build_slack_message(commits)
+  webhook_url = ENV['SLACK_WEBHOOK_URL']
+  post_to_slack(webhook_url, message)
+end
+
+send_to_slack
