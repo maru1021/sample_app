@@ -3,12 +3,7 @@
 namespace :slack do
   task send: :environment do
     def fetch_git_commits
-      lasted_tag = `git describe --tags --abbrev=0`.strip
-      if lasted_tag.empty?
-        `git log --oneline -n 10`.split("\n")
-      else
-        `git log #{lasted_tag}..HEAD --oneline -n 10`.split("\n")
-      end
+      `git log --oneline -n 10`.split("\n")
     end
 
     def build_slack_message(commits)
