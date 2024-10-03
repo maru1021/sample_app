@@ -24,15 +24,13 @@ def build_slack_message(commits)
       {
         type: 'divider'
       },
-      *commits.map do |commit|
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: "```\n#{commit}\n```"
-          }
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: "```\n#{commits.join("\n")}\n```"
         }
-      end
+      }
     ]
   }.to_json
 end
