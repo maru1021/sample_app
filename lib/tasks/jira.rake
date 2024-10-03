@@ -28,9 +28,10 @@ namespace :slack do
     end
 
     def send_to_slack(commits)
-      webhook_url = 'https://hooks.slack.com/services/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'
+      webhook_url = 'https://hooks.slack.com/services/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'
       message = build_slack_message(commits)
       response = post_to_slack(webhook_url, message)
+      puts response.code
 
       if response.code == '200'
         puts 'メッセージがSlackに送信されました'
