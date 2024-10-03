@@ -41,7 +41,7 @@ def build_slack_message(commits)
         type: 'section',
         text: {
           type: 'mrkdwn',
-          "text": "**チケットの担当者はチケットステータスを**`IN_QA`**に変更し、テストをお願いします！**\n(notification_of_release_to_stg)"
+          "text": "*チケットの担当者はチケットステータスを*`IN_QA`*に変更し、テストをお願いします！*\n(notification_of_release_to_stg)"
         }
       }
     ]
