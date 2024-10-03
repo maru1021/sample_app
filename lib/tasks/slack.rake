@@ -15,19 +15,21 @@ def build_slack_message(commits)
   {
     blocks: [
       {
-        type: 'header',
+        type: 'section',
         text: {
-          type: 'plain_text',
-          text: '最新プッシュ一覧',
-          emoji: true
+          type: 'mrkdwn',
+          text: '*最新プッシュ一覧*'
         }
+      },
+      {
+        type: 'divider'
       },
       *commits.map do |commit|
         {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: commit
+            text: "```\n#{commit}\n```"
           }
         }
       end
