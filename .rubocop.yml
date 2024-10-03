@@ -1,0 +1,32 @@
+# .rubocop.yml
+
+# ブロックの最大行数制限を無効化
+Metrics/BlockLength:
+  Max: 9999  # 9999行まで許可
+  ExcludedMethods: []
+
+# メソッドの最大行数制限を無効化
+Metrics/MethodLength:
+  Max: 9999  # 9999行まで許可
+
+# クラスの最大行数制限を無効化
+Metrics/ClassLength:
+  Max: 9999  # 9999行まで許可
+
+# 入れ子の深さを無効化
+Metrics/BlockNesting:
+  Max: 9999  # 入れ子9999階層まで許可
+
+# ABCサイズ（Assignment, Branch, Conditionの複雑さ）制限を無効化
+Metrics/AbcSize:
+  Max: 9999  # ABCサイズ9999まで許可
+
+# CyclomaticComplexity（循環的複雑度）制限を無効化
+Metrics/CyclomaticComplexity:
+  Max: 9999  # 複雑度9999まで許可
+
+# PerceivedComplexity（認知的複雑度）制限を無効化
+Metrics/PerceivedComplexity:
+  Max: 9999  # 認知的複雑度9999まで許可
+Layout/LineLength:
+  Max: 150
