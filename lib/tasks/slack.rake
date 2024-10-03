@@ -9,7 +9,7 @@ def fetch_git_commits
   if lasted_tag.empty?
     `git log --oneline -n 10`.split("\n")
   else
-    `git log #{lasted_tag}..HEAD --oneline -n 10`.split("\n")
+    `git log #{lasted_tag}..HEAD --oneline`.split("\n")
   end
 end
 
@@ -20,14 +20,7 @@ def build_slack_message(commits)
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '@chw_qa :kichiku_kitiku_robo: *【自動通知】:kichiku_kitiku_robo:*'
-        }
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: "stg 環境に「 `refs/heads/main` 」ブランチがリリースされました！！！\n\n先頭のcommit一覧:"
+          text: '最近のcommit一覧:'
         }
       },
       {
@@ -35,13 +28,6 @@ def build_slack_message(commits)
         text: {
           type: 'mrkdwn',
           text: "```\n#{commits.join("\n")}\n```"
-        }
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          "text": "*チケットの担当者はチケットステータスを*`IN_QA`*に変更し、テストをお願いします！*\n(notification_of_release_to_stg)"
         }
       }
     ]
