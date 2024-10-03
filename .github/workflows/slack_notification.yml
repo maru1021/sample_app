@@ -2,8 +2,8 @@ name: Slack Notification on Push
 
 on:
   push:
-    branches: [ "main" ]  # "main" ブランチにプッシュされた場合に実行
-  workflow_dispatch:      # 手動トリガー用
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   slack_notification:
@@ -12,11 +12,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2.5'   # 使用しているRubyのバージョンに合わせてください
+        ruby-version: '3.2.5'
         bundler-cache: true
 
     - name: Install dependencies
