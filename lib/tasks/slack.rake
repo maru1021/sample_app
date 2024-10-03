@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
 require 'json'
@@ -18,7 +20,14 @@ def build_slack_message(commits)
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*最新プッシュ一覧*'
+          text: '@chw_qa :kichiku_kitiku_robo: *【自動通知】:kichiku_kitiku_robo:*'
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: "stg 環境に「 `refs/heads/main` 」ブランチがリリースされました！！！\n\n*先頭のcommit一覧:*"
         }
       },
       {
