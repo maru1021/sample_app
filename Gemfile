@@ -26,6 +26,7 @@ group :development, :test do
   gem 'debug', '1.7.1', platforms: %i[mri mingw x64_mingw]
   gem 'jira-ruby'
   gem 'rubocop'
+  gem 'slack-ruby-client'
 end
 
 group :development do

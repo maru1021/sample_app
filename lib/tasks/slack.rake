@@ -1,55 +1,33 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
-require 'json'
+require 'slack-ruby-client'
 
-def fetch_git_commits
-  lasted_tag = `git describe --tags --abbrev=0`.strip
-  if lasted_tag.empty?
-    `git log --oneline -n 10`.split("\n")
-  else
-    `git log #{lasted_tag}..HEAD --oneline`.split("\n")
+namespace :slack do
+  desc 'Send the latest Git commits to Slack'
+  task send: :environment do
+    def git_commits
+      lasted_tag = `git describe --tags --abbrev=0`.strip
+      if lasted_tag.empty?
+        `git log --oneline -n 10`.split("\n")
+      else
+        `git log #{lasted_tag}..HEAD --oneline`.split("\n")
+      end
+    end
+
+    def format_commits_for_slack(commits)
+      formatted_commits = commits.map { |commit| "• #{commit}" }.join("\n")
+      "最新のコミットログ:\n#{formatted_commits}"
+    end
+
+    Slack.configure do |config|
+      config.token = ENV['SLACK_API_TOKEN']
+    end
+
+    client = Slack::Web::Client.new
+
+    commits = git_commits
+    formatted_message = format_commits_for_slack(commits)
+
+    client.chat_postMessage(channel: '#test', text: formatted_message, as_user: true)
   end
 end
-
-def build_slack_message(commits)
-  {
-    blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: '最近のcommit一覧:'
-        }
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: "```\n#{commits.join("\n")}\n```"
-        }
-      }
-    ]
-  }.to_json
-end
-
-def post_to_slack(webhook_url, message)
-  uri = URI(webhook_url)
-  header = { 'Content-Type': 'application/json' }
-  http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true
-  request = Net::HTTP::Post.new(uri, header)
-  request.body = message
-
-  http.request(request)
-end
-
-def send_to_slack
-  commits = fetch_git_commits
-  message = build_slack_message(commits)
-  webhook_url = ENV['SLACK_WEBHOOK_URL']
-  post_to_slack(webhook_url, message)
-end
-
-send_to_slack

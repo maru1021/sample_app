@@ -112,10 +112,22 @@ GEM
     execjs (2.9.1)
     faker (2.21.0)
       i18n (>= 1.8.11, < 2)
+    faraday (2.12.0)
+      faraday-net_http (>= 2.0, < 3.4)
+      json
+      logger
+    faraday-mashify (0.1.1)
+      faraday (~> 2.0)
+      hashie
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.3.0)
+      net-http
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     formatador (1.1.0)
+    gli (2.21.5)
     globalid (1.2.1)
       activesupport (>= 6.1)
     guard (2.18.0)
@@ -161,6 +173,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -183,6 +196,8 @@ GEM
     msgpack (1.7.2)
     multipart-post (2.4.1)
     nenv (0.3.0)
+    net-http (0.4.1)
+      uri
     net-imap (0.4.16)
       date
       net-protocol
@@ -298,6 +313,12 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     shellany (0.0.1)
+    slack-ruby-client (2.4.0)
+      faraday (>= 2.0)
+      faraday-mashify
+      faraday-multipart
+      gli
+      hashie
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -340,6 +361,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    uri (0.13.1)
     version_gem (1.1.4)
     web-console (4.2.0)
       actionview (>= 6.0.0)
@@ -390,6 +412,7 @@ DEPENDENCIES
   rubocop
   sassc-rails (= 2.1.2)
   selenium-webdriver (= 4.8.3)
+  slack-ruby-client
   solargraph (= 0.50.0)
   sprockets-rails (= 3.4.2)
   sqlite3 (= 1.6.1)
