@@ -3,32 +3,24 @@
 require 'slack-ruby-client'
 
 namespace :slack do
-  desc 'Send the latest Git commits to Slack'
+  desc 'Send the latest Git commits to Slack after the latest tag for main branch'
   task send: :environment do
-    # 現在のブランチ名を取得
-    def current_branch
-      branch = `git rev-parse --abbrev-ref HEAD`.strip
-      branch == 'HEAD' ? 'main' : branch # デタッチされている場合はmainとする
+    # 最新のタグを取得し、そのタグ以降のコミットを取得
+    def git_commits_after_latest_tag
+      latest_tag = `git describe --tags --abbrev=0`.strip
+      if latest_tag.empty?
+        `git log main --oneline -n 10`.split("\n") # タグがない場合は直近10件を取得
+      else
+        `git log #{latest_tag}..main --oneline`.split("\n") # 最新のタグ以降のmainへのコミット
+      end
     end
 
-    # 一番古いコミットメッセージと最新のコミットハッシュを取得
-    def git_commits
-      branch = current_branch
-
-      # 一番古いコミットメッセージ
-      oldest_commit_message = `git log --reverse --pretty=format:"%s" #{branch} | head -n 1`.strip
-
-      # 最新のコミットハッシュ
-      latest_commit_hash = `git rev-parse HEAD`.strip
-
-      { branch:, latest_commit_hash:, oldest_commit_message: }
-    end
-
-    # Slackに送信するために整形
+    # コミットデータをSlackに送信するために整形
     def format_commits_for_slack(commits)
-      "ブランチ: #{commits[:branch]}\n" \
-      "最新のコミットハッシュ: #{commits[:latest_commit_hash]}\n" \
-      "一番古いコミットメッセージ: #{commits[:oldest_commit_message]}"
+      return '最新のタグ以降に新しいコミットはありません。' if commits.empty?
+
+      formatted_commits = commits.map { |commit| "• #{commit}" }.join("\n")
+      "mainブランチへの最新のタグ以降のコミット:\n#{formatted_commits}"
     end
 
     # Slackの設定
@@ -38,11 +30,13 @@ namespace :slack do
 
     client = Slack::Web::Client.new
 
-    # コミット情報を取得して整形
-    commits = git_commits
+    # 最新のタグ以降のコミットを取得し、整形
+    commits = git_commits_after_latest_tag
     formatted_message = format_commits_for_slack(commits)
 
     # Slackにメッセージを送信
     client.chat_postMessage(channel: '#test', text: formatted_message, as_user: true)
+
+    puts '最新のタグ以降のコミットログがSlackに送信されました。'
   end
 end
