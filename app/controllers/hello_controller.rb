@@ -3,6 +3,6 @@
 # コントローラー
 class HelloController < ApplicationController
   def index
-    puts 'testa'
+    puts 'test'
   end
 end
