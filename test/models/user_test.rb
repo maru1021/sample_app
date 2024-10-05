@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -26,7 +28,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'email should not be too long' do
-    @user.email = 'a' * 244 + '@example.com'
+    @user.email = "#{'a' * 244}@example.com"
     assert_not @user.valid?
   end
 
@@ -66,6 +68,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'authenticated? should return false for a user with nil digest' do
-    assert_not @user.authenticated?('')
+    assert_not @user.authenticated?(:remember, '')
   end
 end
