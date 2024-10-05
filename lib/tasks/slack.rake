@@ -7,7 +7,7 @@ require_relative '../../lib/clients/jira_client'
 require_relative '../../lib/clients/slack_notifier'
 
 namespace :slack do
-  desc 'Send the latest Git commits to Slack with Jira information'
+  desc 'タグ以降のコミットにJiraのデータを追加してSlack送信'
   task send: :environment do
     git_client = GitClient
     jira_client = JiraClient
