@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Slack送信
 class SlackNotifier
   def initialize
     Slack.configure do |config|

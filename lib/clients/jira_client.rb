@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Jiraからのデータの取得
 class JiraClient
   JIRA_OPTIONS = {
     username: ENV['JIRA_USERNAME'],
