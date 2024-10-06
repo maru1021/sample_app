@@ -63,8 +63,6 @@ class AccountActivationTest < UsersSignup
   end
 
   test 'should log in successfully with valid activation token and email' do
-    skip 'This test is pending implementation.'
-
     get edit_account_activation_path(@user.activation_token, email: @user.email)
     assert @user.reload.activated?
     follow_redirect!
