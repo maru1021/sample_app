@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative '../test_helper'
 
 class UsersSignup < ActionDispatch::IntegrationTest
   def setup
@@ -49,17 +49,17 @@ class AccountActivationTest < UsersSignup
 
   test 'should not be able to log in before account activation' do
     log_in_as(@user)
-    assert_not is_logged_in?
+    assert_not logged_in?
   end
 
   test 'should not be able to log in with invalid activation token' do
     get edit_account_activation_path('invalid token', email: @user.email)
-    assert_not is_logged_in?
+    assert_not logged_in?
   end
 
   test 'should not be able to log in with invalid email' do
     get edit_account_activation_path(@user.activation_token, email: 'wrong')
-    assert_not is_logged_in?
+    assert_not logged_in?
   end
 
   test 'should log in successfully with valid activation token and email' do
@@ -67,6 +67,6 @@ class AccountActivationTest < UsersSignup
     assert @user.reload.activated?
     follow_redirect!
     assert_template 'users/show'
-    assert is_logged_in?
+    assert logged_in?
   end
 end

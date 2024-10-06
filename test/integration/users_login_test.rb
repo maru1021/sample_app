@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative '../test_helper'
 
 class UsersLogin < ActionDispatch::IntegrationTest
   def setup
@@ -17,7 +17,7 @@ class InvalidPasswordTest < UsersLogin
   test 'login with valid email/invalid password' do
     post login_path, params: { session: { email: @user.email,
                                           password: 'invalid' } }
-    assert_not is_logged_in?
+    assert_not logged_in?
     assert_template 'sessions/new'
     assert_not flash.empty?
     get root_path
@@ -35,7 +35,7 @@ end
 
 class ValidLoginTest < ValidLogin
   test 'login with valid information followed by logout' do
-    assert is_logged_in?
+    assert logged_in?
     assert_redirected_to @user
   end
 
@@ -57,7 +57,7 @@ end
 
 class LogoutTest < Logout
   test 'successful logout' do
-    assert_not is_logged_in?
+    assert_not logged_in?
     assert_response :see_other
     assert_redirected_to root_url
   end

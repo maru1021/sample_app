@@ -1,29 +1,35 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
-class ActiveSupport::TestCase
-  # 指定のワーカー数でテストを並列実行する
-  parallelize(workers: :number_of_processors)
-  # test/fixtures/*.ymlのfixtureをすべてセットアップする
-  fixtures :all
+module ActiveSupport
+  class TestCase
+    # 指定のワーカー数でテストを並列実行する
+    parallelize(workers: :number_of_processors)
 
-  # テストユーザーがログイン中の場合にtrueを返す
-  def is_logged_in?
-    !session[:user_id].nil?
-  end
+    # test/fixtures/*.ymlのfixtureをすべてセットアップする
+    fixtures :all
 
-  def log_in_as(user)
-    session[:user_id] = user.id
+    # テストユーザーがログイン中の場合にtrueを返す
+    def logged_in?
+      !session[:user_id].nil?
+    end
+
+    def log_in_as(user)
+      session[:user_id] = user.id
+    end
   end
 end
 
-class ActionDispatch::IntegrationTest
-
-  # テストユーザーとしてログインする
-  def log_in_as(user, password: 'password', remember_me: '1')
-    post login_path, params: { session: { email: user.email,
-                                          password: password,
-                                          remember_me: remember_me } }
+module ActionDispatch
+  class IntegrationTest
+    # テストユーザーとしてログインする
+    def log_in_as(user, password: 'password', remember_me: '1')
+      post login_path, params: { session: { email: user.email,
+                                            password:,
+                                            remember_me: } }
+    end
   end
 end
