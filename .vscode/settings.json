@@ -1,4 +1,19 @@
 {
-  "editor.minimap.enabled": false,
-  "editor.formatOnSave": false
+  "solargraph.useBundler": true,  // SolargraphをBundlerで管理している場合はtrue
+  "solargraph.bundlerPath": "/Users/maruokamasashi/.rbenv/shims/bundle",
+  "solargraph.commandPath": "/Users/maruokamasashi/.rbenv/shims/solargraph",
+  "solargraph.diagnostics": true,  // 静的解析を有効にする
+  "solargraph.autoformat": true,  // 自動フォーマットを有効にする
+  "solargraph.formatting": true,  // フォーマット機能を有効にする
+  "solargraph.completion": true,  // コード補完を有効にする
+  "solargraph.hover": true,  // ホバー時に情報を表示
+  "solargraph.references": true,  // 定義への移動や参照を有効にする
+  "solargraph.symbols": true,  // シンボルの検索を有効にする
+  "solargraph.definitions": true,  // 定義への移動を有効にする
+  "solargraph.rename": true,  // 変数やメソッドのリネームを有効にする
+  "solargraph.checkGemVersion": true,  // SolargraphのGemバージョンを自動で確認
+  "ruby.intellisense": "solargraph",  // SolargraphをIntelliSenseとして使用
+  "ruby.lint": {
+    "rubocop": true
+  },
 }
