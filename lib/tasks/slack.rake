@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'slack-ruby-client'
-require 'jira-ruby'
 require_relative '../../lib/clients/git_client'
 require_relative '../../lib/clients/jira_client'
 require_relative '../../lib/clients/slack_notifier'
