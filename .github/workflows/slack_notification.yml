@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - main
-    pull_request:
+
+  pull_request:
+    branches:
       - main
+
   workflow_dispatch:
 
 jobs:
@@ -30,6 +33,6 @@ jobs:
     - name: Run Rake task to send Slack notification
       run: bundle exec rake slack:send
       env:
-        SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-        JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+        SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN || env.SLACK_API_TOKEN }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN || env.JIRA_API_TOKEN }}
+        JIRA_USERNAME: ${{ secrets.JIRA_USERNAME || env.JIRA_USERNAME }}
